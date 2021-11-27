@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from most_wanted_labels import app
+from src import app
 
 
 @pytest.fixture()

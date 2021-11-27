@@ -14,14 +14,19 @@ Resources:
   MostWantedLabelsFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: most_wanted_labels/
+      CodeUri: src/
       Handler: app.lambda_handler
       Runtime: python3.9
       Events:
-        MostWantedLabels:
+        RecordLabels:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /most-wanted-labels
+            Path: /api/record-labels
+            Method: get
+        RecordLabel:
+          Type: Api
+          Properties:
+            Path: /api/record-labels/{id}
             Method: get
 
 Outputs:

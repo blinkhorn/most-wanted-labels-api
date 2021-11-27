@@ -1,7 +1,7 @@
 {
   "body": "{\"message\": \"hello world\"}",
-  "resource": "/most-wanted-labels",
-  "path": "/most-wanted-labels",
+  "resource": "/api/record-labels",
+  "path": "/api/record-labels",
   "httpMethod": "GET",
   "isBase64Encoded": false,
   "queryStringParameters": {
