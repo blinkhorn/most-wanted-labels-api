@@ -8,7 +8,7 @@ Description: >
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 3
+    Timeout: 60
 
 Resources:
   MostWantedLabelsFunction:
@@ -18,12 +18,17 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.9
       Events:
-        RecordLabels:
+        GetRecordLabels:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
             Path: /api/record-labels
             Method: get
-        RecordLabel:
+        PostRecordLabel:
+          Type: Api
+          Properties:
+            Path: /api/record-labels/add-new
+            Method: post
+        GetRecordLabel:
           Type: Api
           Properties:
             Path: /api/record-labels/{id}

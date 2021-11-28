@@ -3,7 +3,7 @@ from aws_lambda_powertools import Logger
 from aws_lambda_powertools.event_handler import ApiGatewayResolver
 from aws_lambda_powertools.utilities.typing import LambdaContext
 
-import record_labels
+import record_labels.record_labels as record_labels
 
 logger = Logger()
 app = ApiGatewayResolver()
