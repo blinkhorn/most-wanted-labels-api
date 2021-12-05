@@ -37,9 +37,19 @@ def retrieve_record_label_releases(record_label_id: str) -> list[dict]:
     return requests.get(url).json().get('releases')
 
 def format_releases_stats(record_label_releases: list[dict]) -> list[dict]:
-    return [{str(release.get('id')): get_release_stats(str(release.get('id')), release.get('title'))} for release in record_label_releases]
+    formatted_record_label_releases = [{str(release.get('title')): get_release_stats(str(release.get('id')), release.get('title'))} for release in record_label_releases]
+    unique_record_label_release_titles = set()
+    formatted_unique_record_label_releases = []
+    for formatted_release in formatted_record_label_releases:
+        for title in formatted_release.keys():
+            if title not in unique_record_label_release_titles:
+                unique_record_label_release_titles.add(title)
+                formatted_unique_record_label_releases.append(formatted_release)
+            # TODO: add optimized logic to add the releases with the most wants and haves if there are duplicate titles
+    return formatted_unique_record_label_releases
+
 
 def get_release_stats(release_id: str, title: str) -> dict:
     url = f'https://api.discogs.com/releases/{release_id}?key={key}&secret={secret}'
     community_response = requests.get(url).json().get('community')
-    return {'have_count': community_response.get('have'), 'want_count': community_response.get('want'), 'title': title}
+    return {'have_count': community_response.get('have'), 'want_count': community_response.get('want'), 'title': title, 'id': release_id}
