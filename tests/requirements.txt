@@ -1,3 +1,5 @@
 pytest
 pytest-mock
 boto3
+aws_lambda_powertools
+requests

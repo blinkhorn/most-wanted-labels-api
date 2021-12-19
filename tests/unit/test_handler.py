@@ -3,6 +3,7 @@ import json
 import pytest
 
 from src import app
+from src.record_labels import record_labels
 
 
 @pytest.fixture()
