@@ -17,6 +17,7 @@ Resources:
       CodeUri: src/
       Handler: app.lambda_handler
       Runtime: python3.9
+      Policies: AWSLambdaDynamoDBExecutionRole
       Events:
         GetRecordLabels:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -31,8 +32,30 @@ Resources:
         GetRecordLabel:
           Type: Api
           Properties:
-            Path: /api/record-labels/{id}
+            Path: /api/record-labels/{record_label_id}
             Method: get
+  MostWantedLabelsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: user_id
+          AttributeType: S
+        - AttributeName: record_label_id
+          AttributeType: S
+        - AttributeName: name
+          AttributeType: S
+        - AttributeName: overall_label_score
+          AttributeType: N
+        - AttributeName: average_want
+          AttributeType: N
+        - AttributeName: average_have
+          AttributeType: N
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: user_id
+          KeyType: HASH
+        - AttributeName: record_label_id
+          KeyType: RANGE
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -47,3 +70,6 @@ Outputs:
   MostWantedLabelsFunctionIamRole:
     Description: "Implicit IAM Role created for Most Wanted Labels function"
     Value: !GetAtt MostWantedLabelsFunctionRole.Arn
+  MostWantedLabelsTable:
+    Description: "Most Wanted Labels DynamoDB Table ARN"
+    Value: !GetAtt MostWantedLabelsTable.Arn
