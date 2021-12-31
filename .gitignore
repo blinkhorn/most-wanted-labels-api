@@ -243,7 +243,7 @@ $RECYCLE.BIN/
 
 build.toml
 
-# remove later and properly pass secrets
-src/environment.py
+# SAM config
+samconfig.toml
 
 # End of https://www.gitignore.io/api/osx,linux,python,windows,pycharm,visualstudiocode
