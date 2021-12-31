@@ -1,10 +1,11 @@
 import os
+from decimal import Decimal
 
 import boto3
-from boto3.dynamodb.conditions import Key
 import requests
 from aws_lambda_powertools import Logger
 from aws_lambda_powertools.event_handler.api_gateway import Router
+from boto3.dynamodb.conditions import Key
 
 TABLE_NAME = os.environ["TABLE_NAME"]
 # Normally store secrets in Secrets Manager, but this is a personal AWS account, I'm
@@ -110,9 +111,9 @@ def store_record_label_scores(user_id: str, record_label_id: str, record_label_n
 def format_stored_result(user_id: str, record_label_id: str, record_label_name: str, calculated_record_label_scores: dict) -> dict:
     return {
         'user_id': user_id,
-        'record_label_id': record_label_id,
+        'record_label_id': f"{record_label_id}",
         'name': record_label_name,
-        'overall_label_score': calculated_record_label_scores['overall_label_score'],
-        'average_want': calculated_record_label_scores['average_want'],
-        'average_have': calculated_record_label_scores['average_have']
+        'overall_label_score': Decimal(f"{calculated_record_label_scores['overall_label_score']}"),
+        'average_want': Decimal(f"{calculated_record_label_scores['average_want']}"),
+        'average_have': Decimal(f"{calculated_record_label_scores['average_have']}")
     }
